@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('locals', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_sites')->constrained('sites')->onDelete('cascade');
+            $table->foreignId('id_site')->constrained('sites')->onDelete('cascade');
             $table->string('nom');
             $table->decimal('superficie');
             $table->integer('capacite')->default(1);

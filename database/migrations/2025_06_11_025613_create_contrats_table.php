@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('contrats', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_affectation')->constrained('affectations')->onDelete('cascade');
+            $table->foreignId('id_user')->constrained('users')->onDelete('cascade');
             $table->string('reference')->unique();
             $table->date('dateDebut');
             $table->date('dateFin');
