@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('maintenances', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_affectation')->constrained('affectations')->onDelete('cascade');
+            $table->foreignId('id_local')->constrained('locals')->onDelete('cascade');
             $table->foreignId('id_user')->constrained('users')->onDelete('cascade');
             $table->text('description');
             $table->enum('priorite', ['faible', 'normale', 'eleve', 'urgente'])->default('Normale');
