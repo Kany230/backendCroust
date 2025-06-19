@@ -13,15 +13,19 @@ return new class extends Migration
     {
         Schema::create('maintenances', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_local')->constrained('locals')->onDelete('cascade');
+            $table->foreignId('id_reclamation')->constrained('reclamations')->onDelete('cascade');
+            $table->foreignId('id_technicien')->constrained('users')->onDelete('cascade');
             $table->foreignId('id_user')->constrained('users')->onDelete('cascade');
             $table->text('description');
-            $table->enum('priorite', ['faible', 'normale', 'eleve', 'urgente'])->default('Normale');
-            $table->date('dateSignalement');
-            $table->date('dateDebut')->nullable();
-            $table->date('dateFin')->nullable();
-            $table->enum('statut', ['programme', 'en cours', 'termine', 'annule', 'en attente'])->default('en attente');
+            $table->enum('priorite', ['faible', 'normal', 'eleve', 'urgente'])->default('normal');
+            $table->date('date_signalement');
+            $table->date('date_debut')->nullable();
+            $table->date('date_fin_prevue')->nullable();
+            $table->date('date_fin_reelle')->nullable();
+            $table->enum('statut', ['programme', 'en_cours', 'termine', 'annule', 'en_attente'])->default('en_attente');
             $table->text('remarques')->nullable();
+            $table->text('rapport_final')->nullable();
+            $table->json('materiel_utilise')->nullable();
             $table->timestamps();
         });
     }

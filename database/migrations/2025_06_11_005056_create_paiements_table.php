@@ -14,12 +14,13 @@ return new class extends Migration
         Schema::create('paiements', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_user')->constrained('users')->onDelete('cascade');
-            $table->foreignId('id_local')->constrained('locals')->onDelete('cascade');
+            $table->foreignId('id_reservation')->constrained('reservations')->onDelete('cascade');
             $table->decimal('montant', 10, 2);
             $table->date('dateDebut');
             $table->date('dateEcheance');
             $table->enum('method_paiement', ['wave', 'OM', 'espece']);
             $table->enum('statut', ['en attente', 'validee', 'en retard', 'annule']);
+            $table->enum('type', ['caution', 'total', 'mensuel', 'reste'])->default('total');
             $table->timestamps();
         });
     }

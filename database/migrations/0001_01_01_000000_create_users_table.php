@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('numDossier')->nullable();
             $table->string('filiere')->nullable();
             $table->string('domaine')->nullable();
-            $table->integer('numCIN')->nullable();
+            $table->string('numCIN')->nullable();
             $table->string('photo')->nullable();
             $table->enum('statut', ['actif', 'inactif']);
             $table->enum('role', [

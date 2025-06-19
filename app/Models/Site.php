@@ -19,10 +19,10 @@ class Site extends Model
     ];
 
     public function locals(){
-        return $this->hasMany(Local::class);
+        return $this->hasMany(Local::class, 'id_site');
     }
 
     public function cartographie(){
-        return $this->hasMany(Cartographie::class);
+        return $this->hasMany(Cartographie::class, 'id_site');
     }
 }

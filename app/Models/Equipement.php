@@ -17,12 +17,16 @@ class Equipement extends Model
         'nom',
         'type',
         'etat',
-        'date',
         'dateDebut',
         'dateFin'
     ];
 
     public function local(){
-        return $this->belongsTo(Local::class);
+        return $this->belongsTo(Local::class, 'id_local');
+    }
+
+    public function chambres(){
+        return $this->belongsToMany(Chambre::class, 'chambre_equipement', 'id_chambre', 'id_equipement')
+                    ->withTimestamps();
     }
 }

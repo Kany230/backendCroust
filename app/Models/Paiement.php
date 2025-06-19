@@ -11,19 +11,20 @@ class Paiement extends Model
 
     protected $fillable = [
         'id_user',
-        'id_local',
+        'id_resrevation',
         'montant',
         'dateDebut',
         'dateEcheance',
         'method_paiement',
-        'statut'
+        'statut',
+        'type'
     ];
 
     public function user(){
         return $this->belongsTo(User::class);
     }
 
-    public function local(){
-        return $this->belongsTo(Local::class);
+    public function reservation(){
+        return $this->belongsTo(Reservation::class);
     }
 }

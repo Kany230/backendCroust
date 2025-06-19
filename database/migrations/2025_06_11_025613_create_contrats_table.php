@@ -14,13 +14,16 @@ return new class extends Migration
         Schema::create('contrats', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_user')->constrained('users')->onDelete('cascade');
-            $table->string('reference')->unique();
+            $table->foreignId('id_reservation')->constrained('reservations')->onDelete('cascade');
+            $table->string('reference')->unique()->nullable();
             $table->date('dateDebut');
             $table->date('dateFin');
             $table->decimal('montant', 10, 2);
             $table->enum('frequence_paiement', ['mensuel', 'annuel']);
             $table->enum('type', ['location', 'sous-location', 'convention']);
             $table->enum('statut', ['actif', 'expire', 'resilie'])->default('actif');
+            $table->text('conditions');
+            $table->string('pdf_path')->nullable();
             $table->timestamps();
         });
     }
