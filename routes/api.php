@@ -1,28 +1,121 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Models\Chambre;
+use App\Models\Equipement;
+use App\Models\Maintenance;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SiteController;
+use App\Http\Controllers\LocalController;
+use App\Http\Controllers\ChambreController;
+use App\Http\Controllers\ContratController;
+use App\Http\Controllers\EquipementController;
+use App\Http\Controllers\MaintenanceController;
+use App\Http\Controllers\ReclamationController;
+use App\Http\Controllers\CartographieController;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register API routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "api" middleware group. Make something great!
+|
+*/
 
+Route::middleware('auth:sanctum')->group(function () {
 
-// -------------------- Auth routes
-Route::post('/register', [\App\Http\Controllers\AuthController::class, 'register']);
-Route::post('/login', [\App\Http\Controllers\AuthController::class, 'login']);
-Route::post('/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
+    Route::prefix('cartographie')->group(function () {
+        Route::get('/donne', [CartographieController::class, 'getDonneeCartographie']);
+        Route::get('/index', [CartographieController::class, 'index']);
+        Route::get('{id}/site', [CartographieController::class, 'getDonneeSite']);
+        Route::get('{id}/local', [CartographieController::class, 'getDonneeLocal']);
+        Route::get('{id}/element', [CartographieController::class, 'getDetailsElements']);
+        Route::get('{id}/show', [CartographieController::class, 'show']);
+    });
 
-//A proteger plus tard
-Route::post('/complete-registration', [\App\Http\Controllers\AuthController::class, 'completeRegistration']);
-Route::get('/profile', [\App\Http\Controllers\AuthController::class, 'profile']);
+    Route::prefix('/chambres')->group(function () {
+        Route::get('/index', [ChambreController::class, 'index']);
+        Route::get('{id}/show', [ChambreController::class, 'show']);
+        Route::post('store', [ChambreController::class, 'store']);
+        Route::put('{id}/update', [ChambreController::class, 'update']);
+        Route::delete('{id}/destroy', [ChambreController::class, 'destroy']);
+        Route::get('{id}/parpavillon', [ChambreController::class, 'getParPavillon']);
+        Route::get('disponible', [ChambreController::class, 'getDisponible']);
+        Route::post('{id}/dupliquer', [ChambreController::class, 'dupliquerChambre']);
+        Route::post('{IdChambre}/assigner', [ChambreController::class, 'assignerUser']);
+        Route::delete('{idChambre}/retirer/{idUser}', [ChambreController::class, 'retirerUser']);
+    });
 
+    Route::prefix('/equipements')->group(function () {
+        Route::get('/index', [EquipementController::class, 'index']);
+        Route::get('{id}/show', [EquipementController::class, 'show']);
+        Route::post('store', [EquipementController::class, 'store']);
+        Route::put('{id}/update', [EquipementController::class, 'update']);
+        Route::delete('{id}/delete', [EquipementController::class, 'destroy']);
+        Route::get('statistique', [EquipementController::class, 'getStatistique']);
+        Route::get('parCantine', [EquipementController::class, 'getParCantine']);
+        Route::get('parPavillon/{id}', [EquipementController::class, 'getParPavillon']);
+        Route::get('parChambre/{id}', [EquipementController::class, 'getParChambre']);
+    });
 
-// --------------------Local routes
-Route::get('/locals', [\App\Http\Controllers\LocalController::class, 'index']);
-Route::post('/locals', [\App\Http\Controllers\LocalController::class, 'store']);
-Route::get('/locals/{id}', [\App\Http\Controllers\LocalController::class, 'show']);
-Route::put('/locals/{id}', [\App\Http\Controllers\LocalController::class, 'update']);
-Route::delete('/locals/{id}', [\App\Http\Controllers\LocalController::class, 'destroy']);
+    Route::prefix('/contrats')->group(function () {
+        Route::get('index', [ContratController::class, 'index']);
+        Route::get('{id}/show', [ContratController::class, 'show']);
+        Route::post('store', [ContratController::class, 'store']);
+        Route::post('{reservationId}/generer', [ContratController::class, 'genereContratApresAffectation']);
+    });
 
-// -------------------- Reservation routes
+    Route::prefix('/maintenances')->group(function () {
+        Route::get('index', [MaintenanceController::class, 'index']);
+        Route::get('{id}/show', [MaintenanceController::class, 'show']);
+        Route::post('store', [MaintenanceController::class, 'store']);
+        Route::get('mesmaintenances', [MaintenanceController::class, 'mesMaintenances']);
+        Route::get('{id}/createmaintenance', [MaintenanceController::class, 'createMaintenanceParUser']);
+        Route::get('{id}/edit', [MaintenanceController::class, 'edit']);
+        Route::put('{maintenance}/update', [MaintenanceController::class, 'update']);
+        Route::post('{maintenance}/demarrer', [MaintenanceController::class, 'demarrer']);
+        Route::post('{maintenance}/termine', [MaintenanceController::class, 'termine']);
+        Route::get('{maintenance}/telecharge', [MaintenanceController::class, 'telechargerPdfRapport']);
+        Route::delete('{maintenance}/destroy', [MaintenanceController::class, 'destroy']);
+        Route::get('statistiques', [MaintenanceController::class, 'statistiques']);
+    });
+});
+
+//----------------Reclamation Routes----------------
+Route::prefix('/reclamations')->group(function () {
+    Route::get('/', [ReclamationController::class, 'index']); // Toutes les réclamations
+    Route::post('/', [ReclamationController::class, 'store']); // Créer une réclamation
+    Route::get('/{id}', [ReclamationController::class, 'show']); // Réclamation par ID
+    Route::put('/{id}/update', [ReclamationController::class, 'update']); // Mettre à jour une réclamation
+    Route::delete('/{id}/delete', [ReclamationController::class, 'destroy']); // Supprimer une réclamation
+
+    // Réclamations par utilisateur
+    Route::get('/users/{userId}', [ReclamationController::class, 'userReclamations']);
+
+    //Réclamations par local
+    Route::get('/locals/{localId}', [ReclamationController::class, 'localReclamations']);
+
+    //Réclamations en attente de maintenance
+    Route::get('/en-attente/maintenance', [ReclamationController::class, 'pendingMaintenanceReclamations']);
+});
+
+//----------------Sites Routes----------------
+
+Route::prefix('sites')->group(function () {
+    Route::get('/', [SiteController::class, 'index']);
+    Route::get('/{id}', [SiteController::class, 'show']);
+    Route::post('/', [SiteController::class, 'store']);
+    Route::delete('/{id}', [SiteController::class, 'destroy']);
+});
+
+//----------------Local Routes----------------
+Route::prefix('locals')->group(function () {
+    Route::get('/', [LocalController::class, 'index']);
+    Route::post('/', [LocalController::class, 'store']);
+    Route::get('/{id}', [LocalController::class, 'show']);
+    Route::put('/{id}', [LocalController::class, 'update']);
+    Route::delete('/{id}', [LocalController::class, 'destroy']);
+});
+

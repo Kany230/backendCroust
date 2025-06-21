@@ -7,15 +7,32 @@ use Illuminate\Database\Eloquent\Model;
 
 class Paiement extends Model
 {
-protected $fillable = [
-    'id_user',
-    'id_local',
-    'montant',
-    'dateDebut',
-    'dateEcheance',
-    'method_paiement',
-    'statut'
-];
+// protected $fillable = [
+//     'id_user',
+//     'id_local',
+//     'montant',
+//     'dateDebut',
+//     'dateEcheance',
+//     'method_paiement',
+//     'statut'
+// ];
 
+    protected $fillable = [
+        'id_user',
+        'id_resrevation',
+        'montant',
+        'dateDebut',
+        'dateEcheance',
+        'method_paiement',
+        'statut',
+        'type'
+    ];
 
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
+    public function reservation(){
+        return $this->belongsTo(Reservation::class);
+    }
 }

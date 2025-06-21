@@ -1,33 +1,53 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\Reservation;
 use \Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 
 class ReservationController extends Controller
 {
-    // Faire une réservation
-    public function reserve(Request $request)
+    //Afficher toutes les réservations
+    public function index()
     {
-        
-        // Utilisateur connecté soit un etudiant ou un commerçant
-        // $user = Auth::user();
+        $reservations =Reservation::with(['local', 'user'])
+            ->orderBy('created_at', 'desc')
+            ->get();
 
-        // $data = $request->validate([
-        //     'id_local' => 'required|exists:locals,id',
-        //     'dateDebut' => 'required|date',
-        //     'dateFin' => 'required|date|after_or_equal:dateDebut',
-        //     'description' => 'nullable|string|max:255',
-        //     'choixLocal' => 'required|string|in:local,produit,service',
-        //     'produitOuService' => 'nullable|string|max:255',
-        //     'qualiteQHSE' => 'nullable|string|max:255',
-        //     'nombreCredit' => 'nullable|integer|min:0',
-        //     'moyenneAnnuelle' => 'nullable|numeric|min:0|max:20',
-        // ]);
-        // // Créer la réservation
-        // return response()->json(['message' => 'Réservation créée avec succès', 'reservation' => $reservation], 201);
-
-
+        return response()->json([
+            'reservations' => $reservations
+        ], 200);
     }
+
+    //Afficher les reservations d'un utilisateur
+    public function userReservations()
+    {
+        $user = Auth::user();
+        $reservations =Reservation::with(['local', 'user'])
+            ->where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json([
+            'reservations' => $reservations
+        ], 200);
+    }
+
+    //Afficher une réservation spécifique
+    public function show($id)
+    {
+        $reservation = Reservation::with(['local', 'user'])
+            ->findOrFail($id);
+
+        return response()->json([
+            'reservation' => $reservation
+        ], 200);
+    }
+
+    //Faire un reservattion
+
+
+    
 }

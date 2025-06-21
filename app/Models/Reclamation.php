@@ -25,4 +25,8 @@ class Reclamation extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    public function maintenance(){
+        return $this->hasMany(Maintenance::class, 'id_reclamation');
+    }
 }

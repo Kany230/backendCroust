@@ -13,12 +13,15 @@ return new class extends Migration
     {
         Schema::create('chambres', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_local')->constrained('locals')->onDelete('cascade');
+            $table->foreignId('id_pavillon')->constrained('locals')->onDelete('cascade');
             $table->string('nom');
             $table->string('numero');
             $table->decimal('superficie', 8, 2)->nullable();
             $table->integer('capacite')->default(5);
+            $table->enum('statut', ['libre', 'occupe', 'en maintenance'])->nullable();
             $table->timestamps();
+
+            $table->unique(['id_pavillon', 'numero']);
         });
     }
 

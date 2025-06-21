@@ -60,6 +60,10 @@ class User extends Authenticatable
         return $this->hasMany(Contrat::class);
     }
 
+    public function chambres(){
+        return $this->belongsToMany(Chambre::class, 'chambre_user','id_chambre', 'id_user')
+                    ->withTimestamps();
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

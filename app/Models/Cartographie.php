@@ -24,10 +24,10 @@ class Cartographie extends Model
     ];
 
     public function sites(){
-        return $this->belongsTo(Site::class);
+        return $this->belongsTo(Site::class, 'id_site');
     }
 
     public function local(){
-        return $this->belongsTo(Local::class);
+        return $this->belongsTo(Local::class, 'id_local');
     }
 }

@@ -38,4 +38,12 @@ class Reservation extends Model
     public function controleQHSE(){
         return $this->hasMany(ControleQHSE::class);
     }
+
+    public function contrat(){
+        return $this->hasMany(Contrat::class, 'id_reservation');
+    }
+
+    public function paiement(){
+        return $this->hasMany(Paiement::class, 'id_reservation');
+    }
 }
