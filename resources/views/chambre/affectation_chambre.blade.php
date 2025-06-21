@@ -13,6 +13,6 @@
     @endif
 
     <p>Cordialement,</p>
-    <p>L'équipe de gestion des chambres</p>
+    <p>Le responsable du pavillon</p>
 </body>
 </html>

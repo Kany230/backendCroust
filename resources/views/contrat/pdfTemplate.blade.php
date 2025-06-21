@@ -13,6 +13,20 @@
             margin: 0;
             padding: 20px;
         }
+
+          .logos {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .logos img {
+            height: 50px;
+            margin: 0 15px;
+            vertical-align: middle;
+        }
         
         .header {
             text-align: center;
@@ -138,6 +152,12 @@
     </style>
 </head>
 <body>
+
+   <div class="logos">
+        <img src="{{ asset('images/crous-t-logo.jpg') }}" alt="CROUS-T">
+        <img src="{{ asset('images/sigepal-logo.jpg') }}" alt="SIGePaL">
+    </div>
+
     <div class="header">
         <div class="title">CONTRAT DE {{ strtoupper($contrat->type) }}</div>
         <div class="reference">Référence: {{ $contrat->reference }}</div>
@@ -252,7 +272,8 @@
 
     <div class="footer">
         <p>Document généré le {{ now()->format('d/m/Y à H:i') }}</p>
-        <p>Ce document fait foi entre les parties.</p>
+        <p>Document généré par SIGePaL-CROUST-T.</p>
+        <p>www.croust.sn</p>
     </div>
 </body>
 </html>

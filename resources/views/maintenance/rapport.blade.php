@@ -4,23 +4,102 @@
     <meta charset="utf-8">
     <title>Rapport de Maintenance #{{ data_get($maintenance, 'id', 'N/A') }}</title>
     <style>
-        /* Ton style ici */
-        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 20px; }
-        .header { text-align: center; border-bottom: 2px solid #007bff; padding-bottom: 20px; margin-bottom: 30px; }
-        .company-info { text-align: right; font-size: 12px; color: #666; margin-bottom: 20px; }
-        .maintenance-info { background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
-        .details-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-        .details-table th, .details-table td { padding: 10px; text-align: left; border: 1px solid #ddd; }
-        .details-table th { background-color: #f8f9fa; font-weight: bold; }
-        .section { margin: 20px 0; page-break-inside: avoid; }
-        .section-title { font-size: 16px; font-weight: bold; color: #007bff; border-bottom: 1px solid #007bff; padding-bottom: 5px; margin-bottom: 15px; }
-        .status-badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; text-transform: uppercase; }
-        .status-termine { background-color: #d4edda; color: #155724; }
-        .footer { position: fixed; bottom: 20px; left: 20px; right: 20px; text-align: center; font-size: 10px; color: #666; border-top: 1px solid #ddd; padding-top: 10px; }
-        .page-break { page-break-before: always; }
+        .logos {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .logos img {
+            height: 50px;
+            margin: 0 15px;
+            vertical-align: middle;
+        }
+        body { 
+        font-family: Arial, sans-serif; 
+        line-height: 1.6; color: #333; 
+        margin: 0; 
+        padding: 20px; 
+        }
+        .header { 
+        text-align: center; 
+        border-bottom: 2px solid #007bff; 
+        padding-bottom: 20px; 
+        margin-bottom: 30px; 
+        }
+        .company-info { 
+        text-align: right; 
+        font-size: 12px; 
+        color: #666; 
+        margin-bottom: 20px; 
+        }
+        .maintenance-info { 
+        background-color: #f8f9fa; 
+        padding: 15px; border-radius: 5px;
+        margin-bottom: 20px; 
+        }
+        .details-table { 
+        width: 100%; 
+        border-collapse: collapse; 
+        margin: 20px 0; 
+        }
+        .details-table th, .details-table td {
+        padding: 10px; 
+        text-align: left; 
+        border: 1px solid #ddd; 
+        }
+        .details-table th { 
+        background-color: #f8f9fa; 
+        font-weight: bold; 
+        }
+        .section { 
+        margin: 20px 0; 
+        page-break-inside: avoid; 
+        }
+        .section-title { 
+        font-size: 16px; 
+        font-weight: bold; 
+        color: #007bff; 
+        border-bottom: 1px solid #007bff; 
+        padding-bottom: 5px; 
+        margin-bottom: 15px; 
+        }
+        .status-badge { 
+        display: inline-block; 
+        padding: 4px 8px; 
+        border-radius: 4px; 
+        font-size: 12px; 
+        font-weight: bold; 
+        text-transform: uppercase; 
+        }
+        .status-termine { 
+        background-color: #d4edda; 
+        color: #155724; 
+        }
+        .footer { 
+        position: fixed; 
+        bottom: 20px; 
+        left: 20px; 
+        right: 20px; 
+        text-align: center; 
+        font-size: 10px; 
+        color: #666; 
+        border-top: 1px solid #ddd; 
+        padding-top: 10px; 
+        }
+        .page-break { 
+        page-break-before: always; 
+        }
     </style>
 </head>
 <body>
+
+    <div class="logos">
+        <img src="{{ asset('images/crous-t-logo.png') }}" alt="CROUS-T">
+        <img src="{{ asset('images/sigepal-logo.png') }}" alt="SIGePaL">
+    </div>
     <div class="company-info">
         <strong>{{ config('app.name') }}</strong><br>
         Date de génération : {{ now()->format('d/m/Y à H:i') }}
